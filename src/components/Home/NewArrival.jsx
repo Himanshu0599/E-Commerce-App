@@ -1,0 +1,34 @@
+import TitleCard from "../Card/TitleCard"
+import ArrivalCard from "../Card/ArrivalCard"
+import { Newproducts } from "../Data/data"
+
+const NewArrival = () => {
+  const uniqueTag = new Set();
+  const uniqueProduct = Newproducts.filter((product) => {
+    if (uniqueTag.has(product.tag)) {
+      return false;
+    }
+    uniqueTag.add(product.tag);
+    return true;
+  });
+
+  return (
+    <section className="w-full h-full flex flex-col items-start px-5 xl:px-10 py-10 gap-10">
+      <TitleCard title="New Arrival" />
+      <section className="w-full h-full flex flex-row gap-10 overflow-x-scroll">
+        {uniqueProduct?.map((product) => (
+          <main key={product.id}>
+            <ArrivalCard
+              img={product.img}
+              title={product.subtitle}
+              tag={product.tag}
+              category={product.category}
+            />
+          </main>
+        ))}
+      </section>
+    </section>
+  );
+}
+
+export default NewArrival;
