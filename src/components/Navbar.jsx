@@ -1,141 +1,202 @@
-import { Disclosure, Menu } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Link, useLocation } from 'react-router-dom';
+import { logo } from '../assets';
+import { HiOutlineMenu, HiOutlineShoppingBag } from "react-icons/hi";
+import { MdClose, MdOutlineFavoriteBorder } from "react-icons/md";
+import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useSelector } from "react-redux";
+const Navbar=()=> {
+  const navigate = useNavigate();
+  const location =useLocation();
 
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-];
+  const [toggleMenu, setToggleMenu] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+   const products = useSelector((state) => state.cart.clothes);
+   const favItems = useSelector((state) => state.fav.clothes);
 
-export default function Navbar() {
-  return (
-    <Disclosure as="nav" className="bg-gray-800">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
-          <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            {/* Mobile menu button */}
-            <Disclosure.Button className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon aria-hidden="true" className="block h-6 w-6 group-[data-state=open]:hidden" />
-              <XMarkIcon aria-hidden="true" className="hidden h-6 w-6 group-[data-state=open]:block" />
-            </Disclosure.Button>
-          </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
-              <img
-                alt="Your Company"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
+  const locationRoute = (route) => {
+    if (location.pathname === route) {
+      return true;
+    }
+  };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.length > 0) {
+      navigate(`/search/${searchQuery}`);
+    }
+    setSearchOpen(false);
+  };
+
+  return(
+    <>
+     <nav className='w-full h-full flex items-start justify-between px-5 xl:px-10 py-5'>
+     <section className="w-full h-full flex items-center justify-start gap-5 sm:gap-10 xl:gap-20">
+          <Link to="/" className="w-20 h-10">
+            <img
+              src={logo}
+              alt=""
+              className="w-full h-full object-cover object-center"
+            />
+          </Link>
+          <ul className="hidden lg:flex items-center justify-center gap-10 font-satoshi text-base font-medium text-light-gray">
+            <Link
+              to="/"
+              className={`${
+                locationRoute("/") ? "text-black-100 font-semibold" : ""
+              }`}
+            >
+              <li>Shop</li>
+            </Link>
+            <Link
+              to="/products/men"
+              className={`${
+                locationRoute("/products/men")
+                  ? "text-black-100 font-semibold"
+                  : ""
+              }`}
+            >
+              <li>Men</li>
+            </Link>
+            <Link
+              to="/products/women"
+              className={`${
+                locationRoute("/products/women")
+                  ? "text-black-100 font-semibold"
+                  : ""
+              }`}
+            >
+              <li>Women</li>
+            </Link>
+          </ul>
+        </section>
+      <section className="w-full h-full flex items-center justify-end gap-5 sm:gap-10">
+          <form
+            className="hidden sm:flex items-center bg-white-100 px-3 py-2 gap-2"
+            onSubmit={handleSearch}
+          >
+            <AiOutlineSearch className="text-light-gray" />
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-white-100 text-light-gray rounded outline-none border-none"
+            />
+          </form>
+          <Link to="/favorite" className="relative hidden lg:block">
+            <MdOutlineFavoriteBorder className=" w-6 h-6 text-light-gray" />
+            <span className="w-5 h-5 absolute -top-3 -right-3 bg-red-500 text-white rounded-full flex justify-center items-center text-sm p-2">
+              {favItems.length}
+            </span>           
+            </Link>
+          <Link to="/cart" className="relative hidden lg:block">
+            <HiOutlineShoppingBag className=" w-6 h-6 text-light-gray" />
+             <span className="w-5 h-5 absolute -top-3 -right-3 bg-red-500 text-white rounded-full flex justify-center items-center text-sm p-2">
+              {products.length}
+            </span> 
+          </Link>
+          <section className="block sm:hidden">
+            <AiOutlineSearch
+              className="text-black-100 w-5 h-5 cursor-pointer"
+              onClick={() => setSearchOpen(true)}
+            />
+            {searchOpen && (
+              <form
+                className={`absolute top-0 left-0 z-50 w-full  py-6 bg-white flex items-center justify-between px-10 gap-2 ${
+                  searchOpen ? "search-bar-fade-in" : "search-bar-fade-out"
+                }`}
+                onSubmit={handleSearch}
+              >
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-transparent placeholder:text-light-gray text-light-gray border-none outline-none"
+                />
+                <MdClose
+                  className="w-6 h-6 text-light-gray cursor-pointer"
+                  onClick={() => setSearchOpen(false)}
+                />
+              </form>
+            )}
+          </section>
+          <nav className="block lg:hidden">
+            {toggleMenu ? (
+              <MdClose
+                className="w-6 h-6 text-light-gray cursor-pointer"
+                onClick={() => setToggleMenu(false)}
               />
-            </div>
-            <div className="hidden sm:ml-6 sm:block">
-              <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? 'page' : undefined}
-                    className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'rounded-md px-3 py-2 text-sm font-medium'
-                    )}
+            ) : (
+              <HiOutlineMenu
+                className="w-6 h-6 text-light-gray cursor-pointer"
+                onClick={() => setToggleMenu(true)}
+              />
+            )}
+            {toggleMenu && (
+              <div className=" bg-white absolute top-20 right-0 w-48 h-fit slide-left shadow-xl rounded-bl z-20">
+                <ul className="flex flex-col items-start justify-center gap-5 py-5 px-5 font-satoshi text-base font-normal text-light-gray-100">
+                  <Link
+                    to="/"
+                    className={`${
+                      locationRoute("/") ? "text-black-100 font-semibold" : ""
+                    }`}
                   >
-                    {item.name}
-                  </a>
-                ))}
+                    <li>Shop</li>
+                  </Link>
+                  <Link
+                    to="/products/men"
+                    className={`${
+                      locationRoute("/products/men")
+                        ? "text-black-100 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    <li>Men</li>
+                  </Link>
+                  <Link
+                    to="/products/women"
+                    className={`${
+                      locationRoute("/products/women")
+                        ? "text-black-100 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    <li>Women</li>
+                  </Link>
+                  <li>
+                    <div className="w-full h-1 text-blue-600" />
+                  </li>
+                  <Link
+                    to="/favorite"
+                    className={`${
+                      locationRoute("/favorite")
+                        ? "text-black-100 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    <li>My Wishlist</li>
+                  </Link>
+                  <Link
+                    to="/cart"
+                    className={`${
+                      locationRoute("/cart")
+                        ? "text-black-100 font-semibold"
+                        : ""
+                    }`}
+                  >
+                    <li>My Cart Items</li>
+                  </Link>
+                </ul>
               </div>
-            </div>
-          </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-            >
-              <span className="sr-only">View notifications</span>
-              <BellIcon aria-hidden="true" className="h-6 w-6" />
-            </button>
-
-            {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    className="h-8 w-8 rounded-full"
-                  />
-                </Menu.Button>
-              </div>
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-sm'
-                      )}
-                    >
-                      Your Profile
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-sm'
-                      )}
-                    >
-                      Settings
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-sm'
-                      )}
-                    >
-                      Sign out
-                    </a>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
-            </Menu>
-          </div>
-        </div>
-      </div>
-
-      <Disclosure.Panel className="sm:hidden">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          {navigation.map((item) => (
-            <Disclosure.Button
-              key={item.name}
-              as="a"
-              href={item.href}
-              aria-current={item.current ? 'page' : undefined}
-              className={classNames(
-                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                'block rounded-md px-3 py-2 text-base font-medium'
-              )}
-            >
-              {item.name}
-            </Disclosure.Button>
-          ))}
-        </div>
-      </Disclosure.Panel>
-    </Disclosure>
-  );
+            )}
+          </nav>
+        </section>
+     </nav>
+    </>
+  )
 }
+export default Navbar;
