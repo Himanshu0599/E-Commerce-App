@@ -8,6 +8,7 @@ import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Favorite from './pages/Favorite';
 import Billing from './pages/Billing';
+import Success from './pages/Succes';
 function App() {
   return (
     <Router>
@@ -18,7 +19,8 @@ function App() {
         <Route path="/product/:id"  element={<ProductDetails/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/favorite' element={<Favorite/>}/>  
-        <Route path='/billing' element={<Billing/>}/>    
+        <Route path='/billing' element={<Billing/>}/>   
+        <Route path='/success' element={<Success/>}/>   
       </Routes>
       <Footer />
     </Router>

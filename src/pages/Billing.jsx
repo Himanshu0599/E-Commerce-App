@@ -105,7 +105,7 @@ const Billing = () => {
                 id="creditCard"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
-                className="w-full border border-gray-300  text-gray-300 p-2 rounded-md  outline-none "
+                className="w-full border border-gray-300  text-black p-2 rounded-md  outline-none "
                 placeholder="XXXX-XXXX-XXXX-XXXX"
               />
             </div>
@@ -139,13 +139,13 @@ const Billing = () => {
                   </h2>
                   <p className="text-xs sm:text-base font-medium text-black font-serif">
                     Color:{" "}
-                    <span className="text-light-gray ml-2 capitalize">
+                    <span className="text-gray-400 ml-2 capitalize">
                       {product.color}
                     </span>
                   </p>
                   <p className="text-xs sm:text-base font-medium text-black font-serif">
                     Quantity:{" "}
-                    <span className="text-light-gray ml-2 capitalize">
+                    <span className="text-gray-400 ml-2 capitalize">
                       {product.quantity}
                     </span>
                   </p>
