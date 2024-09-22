@@ -23,9 +23,7 @@ Fashion Factory is a modern and user-friendly Online Clothing brand Shopping Pla
 - Redux Toolkit
 - react-lazy-load-image-component
 - react-select
-- react-toastify
 - swiper
-- Canvas Confetti
 - Redux Persist
 
 
