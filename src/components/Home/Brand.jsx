@@ -23,7 +23,7 @@ const Brand = () => {
                   duration: 500,
                   smooth: true,
                 });
-                navigate(`/products/brand/${brand.brand}`);
+                // navigate(`/products/brand/${brand.brand}`);
               }}
               key={brand.brand}
             >

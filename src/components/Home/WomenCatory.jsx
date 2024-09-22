@@ -4,7 +4,6 @@ import TitleCard from "../Card/TitleCard"
 const WomenCategory=()=>{
     const category="women"
     const menCategory=products.filter((item)=>item.category===category)
-
     const uniqueItem=new Set()
     const uniqueMenItems=menCategory.filter((data)=>{
         if(uniqueItem.has(data.tag)){
