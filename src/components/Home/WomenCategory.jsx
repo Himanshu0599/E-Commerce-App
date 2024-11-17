@@ -19,7 +19,7 @@ const WomenCategory=()=>{
       <section className="w-full h-full flex flex-row gap-10 overflow-x-scroll">
        {uniqueMenItems.map((item)=>(
          <main key={item.id}>
-          <CategoryCard img={item.img} title={item.tag} cateogry={category}/>
+          <CategoryCard img={item.img} title={item.tag} category={category}/>
          </main>
        ))}
       </section>

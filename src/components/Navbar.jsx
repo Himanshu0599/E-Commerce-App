@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { logo } from '../assets';
+import { logo5 } from '../assets'
 import { HiOutlineMenu, HiOutlineShoppingBag } from "react-icons/hi";
 import { MdClose, MdOutlineFavoriteBorder } from "react-icons/md";
 import { AiOutlineSearch } from "react-icons/ai";

@@ -11,7 +11,7 @@ const CatgoryCard = ({ img, title, category }) => {
       duration: 500,
       smooth: true,
     })
-    navigate(`${category}/${title}`);
+     navigate(`${category}/${title}`);
   };
 
   return (
